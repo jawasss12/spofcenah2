@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Download 10 TXT Files</title>
+</head>
+<body>
+
+<h2>Generating files...</h2>
+<p>Jika browser meminta izin multiple downloads, pilih <b>Allow</b>.</p>
+
+<script>
+function downloadFile(filename, content) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+window.onload = () => {
+    for (let i = 1; i <= 10; i++) {
+        const content = `Ini adalah file nomor ${i}
+Dibuat pada: ${new Date().toLocaleString()}
+Random: ${Math.random()}
+`;
+
+        setTimeout(() => {
+            downloadFile(`file_${i}.txt`, content);
+        }, i * 200); // jeda 200ms agar lebih kompatibel
+    }
+};
+</script>
+
+</body>
+</html>
